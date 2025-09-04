@@ -24,6 +24,28 @@
 
 ---
 
+### Access Token 검증
+
+---
+
+> POST | localhost:8080/login
+
+Token 값 복사
+
+<img width="806" height="653" alt="image" src="https://github.com/user-attachments/assets/3e9d76e1-5c61-4222-856e-b44e3a2871ca" />
+
+
+
+> GET | localhost:8080/api/hello
+
+Token 값 붙여넣기
+
+<img width="797" height="461" alt="image" src="https://github.com/user-attachments/assets/f721f3e7-4b65-4556-90c2-02f407342819" />
+
+---
+
+
+
 
 # Tree
 ---
