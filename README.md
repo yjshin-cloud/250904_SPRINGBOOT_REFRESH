@@ -9,6 +9,7 @@
 
 # Tree
 
+```
 src
 └── main
     ├── java
@@ -41,10 +42,11 @@ src
     └── resources
         ├── 📄 application.yml                             # 환경 설정 (JWT secret, DB, 포트 등)
         └── 📂 static                                      # 정적 파일(css/js/html)
-
+```
 
 ## 🚀 설명 (이모지 버전)
 
+```
 📄 = 일반 파일
 📂 = 폴더
 🔑 = 보안/암호 관련 (JWT)
@@ -54,6 +56,7 @@ src
 🛠️ = 서비스(비즈니스 로직)
 👤 = 사용자/엔티티
 💾 = 데이터베이스
+```
 
 --- 
 
