@@ -44,14 +44,6 @@ Token 값 붙여넣기
 
 ---
 
-### Access Token 재발급 요청 결과
-
----
-
-<img width="1042" height="596" alt="image" src="https://github.com/user-attachments/assets/736a50ba-411d-4f71-af29-b64eb3370cc2" />
-
----
-
 ### Redis FrontEnd Test
 
 ---
@@ -62,6 +54,14 @@ Token 값 붙여넣기
 ---
 
 <img width="1438" height="776" alt="image" src="https://github.com/user-attachments/assets/9ccb680c-c92e-4620-9252-a102d2db9d34" />
+
+---
+
+### Access Token 재발급 요청 결과
+
+---
+
+<img width="1042" height="596" alt="image" src="https://github.com/user-attachments/assets/736a50ba-411d-4f71-af29-b64eb3370cc2" />
 
 ---
 
