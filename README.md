@@ -1,14 +1,18 @@
 # Spring Boot Setting
-
+---
 <img width="1834" height="924" alt="image" src="https://github.com/user-attachments/assets/ff65c66e-905e-46e3-9c0d-58c9f439f305" />
 
 # Console Log
-
+---
 <img width="1751" height="660" alt="image" src="https://github.com/user-attachments/assets/b6643c50-62ad-4098-94dc-f8fade48ba44" />
+
+# Result
+---
+<img width="1064" height="714" alt="image" src="https://github.com/user-attachments/assets/9cce60d4-4fc1-4eb9-9abb-a7e8b3a17bca" />
 
 
 # Tree
-
+---
 ```
 src
 └── main
@@ -64,6 +68,8 @@ src
 <summary>📑 Code (펼치기/접기)</summary>
 
 ---
+
+## 🔑 JwtUtil.java (JWT 토큰 도구)
 
 ```java
 // JwtUtil.java
@@ -139,6 +145,8 @@ public class JwtUtil {
 
 --- 
 
+## 🧹 JwtFilter.java (JWT 인증 필터)
+
 ```java
 // JwtFilter.java
 package com.example.springrefresh.filter;
@@ -205,6 +213,119 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 }
 ```
+
+---
+
+## ⚙️ SecurityConfig.java (보안 설정)
+
+```java
+package com.example.springrefresh.config;
+
+import com.example.springrefresh.filter.JwtFilter;
+import com.example.springrefresh.util.JwtUtil;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
+
+@Configuration // 설정 클래스
+@EnableWebSecurity // 스프링 시큐리티 활성화
+@RequiredArgsConstructor
+public class SecurityConfig {
+    private final JwtUtil jwtUtil; // JwtUtil 주입
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        // 1. CORS 허용
+        http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
+
+        // 2. 기본 보안 기능 끄기 (JWT만 사용)
+        http.csrf(AbstractHttpConfigurer::disable)
+            .formLogin(AbstractHttpConfigurer::disable)
+            .httpBasic(AbstractHttpConfigurer::disable);
+
+        // 3. 세션 대신 JWT만 사용
+        http.sessionManagement(session ->
+                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
+        // 4. 경로별 권한 설정
+        http.authorizeHttpRequests(auth -> auth
+                .requestMatchers("/", "/login", "/reissue").permitAll() // 누구나 접근 가능
+                .requestMatchers("/api/**").hasRole("USER")             // USER 권한 필요
+                .anyRequest().authenticated()                           // 나머지는 로그인 필요
+        );
+
+        // 5. JwtFilter 추가 (UPAF 앞에 실행)
+        http.addFilterBefore(new JwtFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
+    }
+
+    // 비밀번호 암호화 도구
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
+    // 메모리 사용자 저장소 (테스트용)
+    @Bean
+    public UserDetailsService userDetailsService() {
+        UserDetails user = User.builder()
+                .username("user") // 아이디: user
+                .password(passwordEncoder().encode("1234")) // 비번: 1234
+                .roles("USER")
+                .build();
+        return new InMemoryUserDetailsManager(user);
+    }
+
+    // 인증 관리자
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+        return configuration.getAuthenticationManager();
+    }
+
+    // CORS 설정
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(List.of("http://127.0.0.1:5500")); // 허용 출처
+        config.setAllowedMethods(List.of("*")); // 모든 메서드 허용
+        config.setAllowedHeaders(List.of("*")); // 모든 헤더 허용
+        config.setAllowCredentials(true); // 인증정보 허용
+        config.setMaxAge(3600L); // 캐싱 시간 1시간
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
+    }
+}
+```
+
+---
+
+## 📝 SecurityConfig 인증 흐름도
+
+<img width="1105" height="3840" alt="Untitled diagram _ Mermaid Chart-2025-09-04-042718" src="https://github.com/user-attachments/assets/90813f2d-d405-4941-8c26-a1afb4f4c223" />
+
+
 ---
 
 ## 📝 JWT 3개 클래스 관계도
@@ -241,6 +362,7 @@ sequenceDiagram
 
     S->>C: 컨트롤러로 이동 (인증된 사용자로 처리)
 ```
+
 
 
 </details>
