@@ -61,7 +61,7 @@ src
 --- 
 
 <details>
-<summary>📊 Code (펼치기/접기)</summary>
+<summary>📑 Code (펼치기/접기)</summary>
 
 ---
 
