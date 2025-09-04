@@ -34,7 +34,7 @@ Token 값 복사
 
 <img width="806" height="653" alt="image" src="https://github.com/user-attachments/assets/3e9d76e1-5c61-4222-856e-b44e3a2871ca" />
 
-
+---
 
 > GET | localhost:8080/api/hello
 
@@ -44,8 +44,18 @@ Token 값 붙여넣기
 
 ---
 
+### Redis FrontEnd Test
+
+---
+
+<img width="456" height="799" alt="image" src="https://github.com/user-attachments/assets/aefaa59b-62ad-43ef-952e-487d6b475aa3" />
 
 
+---
+
+<img width="1438" height="776" alt="image" src="https://github.com/user-attachments/assets/9ccb680c-c92e-4620-9252-a102d2db9d34" />
+
+---
 
 # Tree
 ---
