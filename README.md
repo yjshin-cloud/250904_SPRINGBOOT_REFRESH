@@ -205,6 +205,42 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 }
 ```
+---
+
+## 📝 JWT 3개 클래스 관계도
+
+<img width="480" height="330" alt="image" src="https://github.com/user-attachments/assets/c97e41bf-2797-405b-a5e7-20b46c8ab566" />
+
+---
+
+## 📝 JWT 인증 전체 흐름 (Client → Server)
+```mermaid
+sequenceDiagram
+    participant C as Client 🧑
+    participant S as SecurityConfig ⚙️
+    participant F as JwtFilter 🧹
+    participant U as JwtUtil 🔑
+    participant SC as SecurityContext 📒
+
+    C->>S: HTTP 요청 (Authorization: Bearer 토큰)
+    Note over S: SecurityConfig가 필터 체인 구성<br/>JwtFilter 등록
+
+    S->>F: 요청 전달
+    F->>F: Authorization 헤더 확인<br/>"Bearer " 접두어 체크
+    F->>U: jwtUtil.isExpired(token) 호출
+    U-->>F: 만료 여부 반환
+
+    alt 토큰 만료됨
+        F->>S: 다음 필터로 전달 (비인증 상태)
+    else 토큰 유효
+        F->>U: jwtUtil.getUsername(token), jwtUtil.getRole(token)
+        U-->>F: username, role 반환
+        F->>SC: Authentication 객체 생성 후 등록
+        SC-->>S: 인증 완료
+    end
+
+    S->>C: 컨트롤러로 이동 (인증된 사용자로 처리)
+```
 
 
 </details>
