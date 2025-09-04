@@ -402,12 +402,11 @@ public class SecurityConfig {
 
 <img width="1105" height="3840" alt="Untitled diagram _ Mermaid Chart-2025-09-04-042718" src="https://github.com/user-attachments/assets/90813f2d-d405-4941-8c26-a1afb4f4c223" />
 
-
 ---
 
 ## 📝 JWT 3개 클래스 관계도
 
-<img width="480" height="330" alt="image" src="https://github.com/user-attachments/assets/c97e41bf-2797-405b-a5e7-20b46c8ab566" />
+<img width="367" height="326" alt="image" src="https://github.com/user-attachments/assets/bf7ee75e-9070-405f-9c17-0cf909be3063" />
 
 ---
 
@@ -439,6 +438,8 @@ sequenceDiagram
 
     S->>C: 컨트롤러로 이동 (인증된 사용자로 처리)
 ```
+
+---
 
 
 
